@@ -2,6 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { doc, setDoc } from "firebase/firestore";
 import { Firestore_Db } from "./firebaseConfig";
+import Startpage from './Frontend/Startpage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   // JUST FOR TEST
@@ -13,13 +18,21 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
+    <NavigationContainer>
+      <Stack.Navigator> 
+      <Stack.Screen name="Startpage" component={Startpage}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+/*
+ <View style={styles.container}>
       <Text>Welcome to coaching app!</Text>
       <Button title="Send data (Test)" onPress={sendDataToFireBase} />
       <StatusBar style="auto" />
     </View>
-  );
-}
+    */ 
 
 const styles = StyleSheet.create({
   container: {
