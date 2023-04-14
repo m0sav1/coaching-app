@@ -27,6 +27,7 @@ const Startpage = () => {
         paused={false}
         disableFullscreen={true}
         useNativeControls={false}
+        isMuted={true}
         onLoad={handleVideoLoad}
       />
     </View>
