@@ -20,7 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator> 
-      <Stack.Screen name="Startpage" component={Startpage}/>
+      <Stack.Screen name="Startpage" component={Startpage} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
