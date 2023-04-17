@@ -8,7 +8,7 @@ import React from 'react';
  */
 
 const Startpage = () => {
-  const videoUrl = require('./video.mp4');
+  const videoUrl = require('../../assets/video.mp4');
   const videoRef = React.useRef(null);
   const { width, height } = Dimensions.get('window');
 
