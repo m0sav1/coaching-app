@@ -1,34 +1,39 @@
 import { View, Dimensions } from 'react-native';
 import { Video } from 'expo-av';
-import React from 'react';
-
-/** TODO
- * Fixa att videon är responsiv/passar skärmen
- * 
- */
+import React, {useEffect} from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const Startpage = () => {
   const videoUrl = require('../../assets/video.mp4');
   const videoRef = React.useRef(null);
   const { width, height } = Dimensions.get('window');
+  const navigation = useNavigation();
 
-  /* Startar video när applikationen öppnas */
-  const handleVideoLoad = () => {
-    videoRef.current.playAsync();
-  }
+  const handlePlaybackStatusUpdate = (status) => {
+    if (status.didJustFinish) {
+      navigation.navigate('Registration');
+    }
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playAsync();
+    }
+  }, [videoRef]);
+
   return (
     <View style={{ flex: 1 }}>
       <Video
         ref={videoRef}
         source={ videoUrl }
-        style={{ width: width, height: height }} /*flex 1*/
-        resizeMode="cover" //contain
+        style={{ width: width, height: height }}
+        resizeMode="cover"
         fullscreen={false}
         paused={false}
         disableFullscreen={true}
         useNativeControls={false}
         isMuted={true}
-        onLoad={handleVideoLoad}
+        onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
     </View>
   )
