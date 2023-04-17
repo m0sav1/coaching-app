@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { doc, setDoc } from "firebase/firestore";
 import { Firestore_Db } from "./firebaseConfig";
-import Startpage from './Frontend/Startpage';
+import Startpage from './src/screens/Startpage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
