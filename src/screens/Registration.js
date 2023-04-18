@@ -3,26 +3,12 @@ import { View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpa
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
-/**
- * Fixa frontend
- * Byt skräm efter user är skapad
- * 
- */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBM3qMuVDxSFJS0bCrU7Fo8s-rpMJs-FLo",
-  authDomain: "phantoms-mobile-app.firebaseapp.com",
-  projectId: "phantoms-mobile-app",
-  storageBucket: "phantoms-mobile-app.appspot.com",
-  messagingSenderId: "733350156577",
-  appId: "1:733350156577:web:62c601aa9fcb9ec8ae4660",
-  measurementId: "G-6V593ZNWE3",
-};
+import firebaseConfig from '../../firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
 
 const { width } = Dimensions.get('window');
+
 
 const Registration = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -46,10 +32,16 @@ const Registration = () => {
     setCurrentPage(currentPage + 1);
   };
 
+  // RegEx kontroll av email
+  const isEmailValid = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    return emailRegex.test(email);
+}
+  // Skapar användarkonto & uppdaterar databasen
   const handleRegisterPress = async () => {
     try {
       const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      // Användarkonto skapat
       const user = userCredential.user;
       const userRef = firebase.firestore().collection('users').doc(user.uid);
       userRef.set({
@@ -57,18 +49,13 @@ const Registration = () => {
         email: email,
         password: password,
       });
-
      setCurrentPage(currentPage + 1); // tar dig till nästa sida!
-
-      //lägg navigation här för att byta sida efter registering
     } catch (error) {
-      // User creation failed
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorCode, errorMessage);
     }
   };
-
   return (
     //<ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
@@ -76,7 +63,7 @@ const Registration = () => {
         <View style={styles.pageContainer}>
           <Text style={styles.title}>Vad heter du?</Text>
           <TextInput style={styles.input} placeholder="Förnamn och efternamn" value={name} onChangeText={handleNameChange} />
-          <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+          <TouchableOpacity style={[styles.button, (!name) ? styles.buttonDisabled : null]} onPress={handleNextPress} disabled={!name}>
             <Text style={styles.buttonText}>Nästa</Text>
           </TouchableOpacity>
         </View>
@@ -85,7 +72,7 @@ const Registration = () => {
         <View style={styles.pageContainer}>
           <Text style={styles.title}>Vad är din e-postadress?</Text>
           <TextInput style={styles.input} placeholder="Din e-postadress" value={email} onChangeText={handleEmailChange} />
-          <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+          <TouchableOpacity style={[styles.button, !email || !isEmailValid(email) ? styles.buttonDisabled : null]} onPress={handleNextPress} disabled={!email || !isEmailValid(email)}>
             <Text style={styles.buttonText}>Nästa</Text>
           </TouchableOpacity>
         </View>
@@ -94,7 +81,7 @@ const Registration = () => {
         <View style={styles.pageContainer}>
           <Text style={styles.title}>Välj ett lösenord</Text>
           <TextInput style={styles.input} placeholder="Ditt lösenord" secureTextEntry={true} value={password} onChangeText={handlePasswordChange} />
-          <TouchableOpacity style={styles.button} onPress={handleRegisterPress}>
+          <TouchableOpacity style={[styles.button, !password|| password.length <= 7 ? styles.buttonDisabled : null]} onPress={handleRegisterPress} disabled={!password || password.length <= 7}>
             <Text style={styles.buttonText}>Skapa konto</Text>
           </TouchableOpacity>
         </View>
@@ -134,7 +121,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: 'blue',
+    backgroundColor: '#0000FF',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -144,6 +131,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  buttonDisabled: {
+    backgroundColor: '#ADD8E6',
+  }
 });
 
 export default Registration;
