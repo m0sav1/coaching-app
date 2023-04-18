@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpa
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { NavigationContainer } from '@react-navigation/native';
 
 /**
  * Fixa frontend
@@ -55,8 +54,12 @@ const Registration = () => {
       const userRef = firebase.firestore().collection('users').doc(user.uid);
       userRef.set({
         name: name,
-        email: email
+        email: email,
+        password: password,
       });
+
+     setCurrentPage(currentPage + 1); // tar dig till nästa sida!
+
       //lägg navigation här för att byta sida efter registering
     } catch (error) {
       // User creation failed
@@ -65,6 +68,7 @@ const Registration = () => {
       console.error(errorCode, errorMessage);
     }
   };
+
   return (
     //<ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
@@ -95,6 +99,11 @@ const Registration = () => {
           </TouchableOpacity>
         </View>
       )}
+      {currentPage === 3 && (
+        <View style={styles.pageContainer}>
+          <Text style={styles.title}>Ditt konto har skapats</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -104,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     paddingHorizontal: 20,
   },
   title: {
