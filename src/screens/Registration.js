@@ -13,6 +13,7 @@ navigator;
 
 
 const Registration = () => {
+  const navToStart = useNavigation();
   const [currentPage, setCurrentPage] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -52,12 +53,15 @@ const Registration = () => {
         password: password,
       });
 
+      navToStart.navigate('HomePage');
+
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorCode, errorMessage);
     }
   };
+
 
 
 
