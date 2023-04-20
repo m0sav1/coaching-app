@@ -4,6 +4,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { Firestore_Db } from "./firebaseConfig";
 import Startpage from './src/screens/Startpage';
 import Registration from './src/screens/Registration';
+import LoginPage from './src/screens/LoginPage';
+import HomePage from './src/screens/HomePage';
+import PasswordResetPage from './src/screens/PasswordResetPage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -22,19 +25,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator> 
         <Stack.Screen name="Startpage" component={Startpage} options={{headerShown: false}}/>
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
+        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
+        <Stack.Screen name="PasswordResetPage" component={PasswordResetPage} options={{headerShown: false}}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );  
 }
 
-/*
- <View style={styles.container}>
-      <Text>Welcome to coaching app!</Text>
-      <Button title="Send data (Test)" onPress={sendDataToFireBase} />
-      <StatusBar style="auto" />
-    </View>
-    */ 
 
 const styles = StyleSheet.create({
   container: {
