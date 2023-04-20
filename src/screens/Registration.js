@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import{useNavigation} from'@react-navigation/native';
 import { View, Text, StyleSheet, ScrollView, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -8,6 +9,7 @@ import firebaseConfig from '../../firebaseConfig';
 firebase.initializeApp(firebaseConfig);
 
 const { width } = Dimensions.get('window');
+navigator;
 
 
 const Registration = () => {
@@ -49,13 +51,16 @@ const Registration = () => {
         email: email,
         password: password,
       });
-     setCurrentPage(currentPage + 1); // tar dig till nästa sida!
+
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorCode, errorMessage);
     }
   };
+
+
+
   return (
     //<ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
