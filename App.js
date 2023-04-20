@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { doc, setDoc } from "firebase/firestore";
 import { Firestore_Db } from "./firebaseConfig";
-import Startpage from './src/screens/Startpage';
+import StartPage from './src/screens/StartPage';
 import Registration from './src/screens/Registration';
 import LoginPage from './src/screens/LoginPage';
 import HomePage from './src/screens/HomePage';
@@ -24,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator> 
-        <Stack.Screen name="Startpage" component={Startpage} options={{headerShown: false}}/>
+        <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}}/>
         <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
         <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
