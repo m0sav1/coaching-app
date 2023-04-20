@@ -11,7 +11,7 @@ const Startpage = () => {
 
   const handlePlaybackStatusUpdate = (status) => {
     if (status.didJustFinish) {
-      navigation.navigate('Registration');
+      navigation.navigate('LoginPage');
     }
   };
 
