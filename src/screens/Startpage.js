@@ -3,7 +3,7 @@ import { Video } from 'expo-av';
 import React, {useEffect} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-const Startpage = () => {
+const StartPage = () => {
   const videoUrl = require('../../assets/video.mp4');
   const videoRef = React.useRef(null);
   const { width, height } = Dimensions.get('window');
@@ -39,4 +39,4 @@ const Startpage = () => {
   )
 }
 
-export default Startpage
+export default StartPage;
