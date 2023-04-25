@@ -1,39 +1,40 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { Firestore_Db } from "./firebaseConfig";
+//import StartPage from './src/screens/StartPage';
+import Registration from './src/screens/Registration';
+import LoginPage from './src/screens/LoginPage';
+import HomePage from './src/screens/HomePage';
+import PasswordResetPage from './src/screens/PasswordResetPage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const firebaseConfig = {
-    apiKey: "AIzaSyBM3qMuVDxSFJS0bCrU7Fo8s-rpMJs-FLo",
-    authDomain: "phantoms-mobile-app.firebaseapp.com",
-    projectId: "phantoms-mobile-app",
-    storageBucket: "phantoms-mobile-app.appspot.com",
-    messagingSenderId: "733350156577",
-    appId: "1:733350156577:web:62c601aa9fcb9ec8ae4660",
-    measurementId: "G-6V593ZNWE3",
-  };
-
-  initializeApp(firebaseConfig);
-
-  // Just test to check conecction
+  // JUST FOR TEST
   const sendDataToFireBase = async () => {
-    const firestore = getFirestore();
-
-    await setDoc(doc(firestore, "users", "user_id"), {
-      email: "sebaswat@gmail.com",
-      login: "testlogin",
+    await setDoc(doc(Firestore_Db, "users", "user_id2"), {
+      email: "test2@gmail.com",
+      login: "IamAwesome",
     });
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Welcome to coaching app!</Text>
-      <Button title="Send data (Test)" onPress={sendDataToFireBase} />
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator> 
+       {/* <Stack.Screen name="StartPage" component={StartPage} options={{headerShown: false}}/> */}
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+        <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
+        <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
+        <Stack.Screen name="PasswordResetPage" component={PasswordResetPage} options={{headerShown: false}}/>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+  );  
 }
+
 
 const styles = StyleSheet.create({
   container: {
