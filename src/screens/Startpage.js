@@ -1,4 +1,4 @@
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, TouchableOpacity,Text} from 'react-native';
 import { Video } from 'expo-av';
 import React, {useEffect} from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -20,13 +20,14 @@ const StartPage = () => {
       videoRef.current.playAsync();
     }
   }, [videoRef]);
+    
 
   return (
     <View style={{ flex: 1 }}>
       <Video
         ref={videoRef}
         source={ videoUrl }
-        style={{ width: width, height: height }}
+        style={{ width:width, height:height}}
         resizeMode="cover"
         fullscreen={false}
         paused={false}
@@ -35,6 +36,19 @@ const StartPage = () => {
         isMuted={true}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          top: height / 2 - 25,
+          left: width / 2 - 50,
+          backgroundColor: 'blue',
+          padding: 10,
+          borderRadius: 5,
+        }}
+        onPress={() => navigation.navigate('LoginPage')}
+      >
+        <Text style={{ fontSize: 18 }}>Go to Login</Text>
+      </TouchableOpacity>
     </View>
   )
 }
