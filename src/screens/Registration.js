@@ -70,34 +70,34 @@ const Registration = () => {
       <View style={styles.container}>
       {currentPage === 0 && (
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>Vad heter du?</Text>
-          <TextInput style={styles.input} placeholder="Förnamn och efternamn" value={name} onChangeText={handleNameChange} />
+          <Text style={styles.title}>What's your name?</Text>
+          <TextInput style={styles.input} placeholder="First and lastname" value={name} onChangeText={handleNameChange} />
           <TouchableOpacity style={[styles.button, (!name) ? styles.buttonDisabled : null]} onPress={handleNextPress} disabled={!name}>
-            <Text style={styles.buttonText}>Nästa</Text>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
       )}
       {currentPage === 1 && (
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>Vad är din e-postadress?</Text>
-          <TextInput style={styles.input} placeholder="Din e-postadress" value={email} onChangeText={handleEmailChange} />
+          <Text style={styles.title}>What's your email address?</Text>
+          <TextInput style={styles.input} placeholder="Email adress" value={email} onChangeText={handleEmailChange} />
           <TouchableOpacity style={[styles.button, !email || !isEmailValid(email) ? styles.buttonDisabled : null]} onPress={handleNextPress} disabled={!email || !isEmailValid(email)}>
-            <Text style={styles.buttonText}>Nästa</Text>
+            <Text style={styles.buttonText}>Next</Text>
           </TouchableOpacity>
         </View>
       )}
       {currentPage === 2 && (
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>Välj ett lösenord</Text>
-          <TextInput style={styles.input} placeholder="Ditt lösenord" secureTextEntry={true} value={password} onChangeText={handlePasswordChange} />
+          <Text style={styles.title}>Choose a password</Text>
+          <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} value={password} onChangeText={handlePasswordChange} />
           <TouchableOpacity style={[styles.button, !password|| password.length <= 7 ? styles.buttonDisabled : null]} onPress={handleRegisterPress} disabled={!password || password.length <= 7}>
-            <Text style={styles.buttonText}>Skapa konto</Text>
+            <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
         </View>
       )}
       {currentPage === 3 && (
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>Ditt konto har skapats</Text>
+          <Text style={styles.title}>Your account has been created!</Text>
         </View>
       )}
     </View>
