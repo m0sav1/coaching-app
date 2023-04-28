@@ -9,6 +9,8 @@ import HomePage from "./src/screens/HomePage";
 // import PasswordResetPage from "./src/screens/PasswordResetPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Program1 from "./src/components/Program1/Program1";
+import Program2 from "./src/components/Program2/Program2";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +24,9 @@ export default function App() {
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
         <Stack.Screen name="PasswordResetPage" component={PasswordResetPage} options={{headerShown: false}}/>
         <Stack.Screen name="Logout" component={LogoutPage} options={{headerShown: false}}/> */}
+          <Stack.Screen name="Program1" component={Program1} options={{headerShown: false}}/> 
+          <Stack.Screen name="Program2" component={Program2} options={{headerShown: false}}/> 
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,14 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
-// import video1 from "./videos/video1";
+import { View, Text, StyleSheet } from "react-native";
 
 const Program1 = () => {
   return (
     <View>
-      <Text>Program 1</Text>
-      {/* <video1/> */}
+      <Text style={styles.container}> Program 1</Text>
     </View>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    fontSize: 40,
+    paddingTop: 40,
+    textAlign: 'center',
+  },
+});
 
 export default Program1;

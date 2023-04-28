@@ -1,27 +1,27 @@
-import { View, Text, StyleSheet, ScrollView,  Dimensions,TextInput, TouchableOpacity, Button} from "react-native";
+import { View, Text, StyleSheet, Pressable} from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 // import LogoutPage from "./LogoutPage";
 
 
-const navigation = useNavigation();
-
-
-// const handleProgram1 = () => {
-//   navigation.navigate("../components/Program1/Program1");
-// }
-
-// const handleProgram2 = () => {
-//   navigation.navigate("../components/Program2/Program2");
-// }
-
 const HomePage = () => {
+
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
         {/* <LogoutPage/> */}
-      {/* <Text style={styles.header}>Home Page</Text>
-      <Button title="Program 1" onPress={handleProgram1} style={styles.button}/>
-      <Button title="Program 2" onPress={handleProgram2} style={styles.button}/> */}
+      <Text style={styles.header}>Home Page</Text>
+
+      {/* Jag har gjört knappar med Pressable eftersom det gör inte att stylea <Button>  
+      Det går bra att ändra styling sen om man vill, det är bara tillfälligt i nu läge //Sebbe */}
+
+      <Pressable onPress={() => navigation.navigate("Program1")} style={styles.button}>
+        <Text>Program 1</Text>
+      </Pressable>
+      
+      <Pressable onPress={() => navigation.navigate("Program2")} style={styles.button}>
+        <Text>Program 2</Text>
+      </Pressable>
     </View>
   );
 };
@@ -29,17 +29,23 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
+    alignItems: "center",
   },
   header: {
-    fontSize: 24,
+    fontSize: 34,
+    paddingTop: 40,
   },
   button: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 5,
+    marginTop: 20,
+    borderRadius: 8,
+    height: 50,
+    width: '70%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+    backgroundColor: '#1386F9'
   }
+
 });
 
 export default HomePage;
