@@ -8,12 +8,14 @@ const HomePage = () => {
 
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View >
         {/* <LogoutPage/> */}
       <Text style={styles.header}>Home Page</Text>
 
       {/* Jag har gjört knappar med Pressable eftersom det gör inte att stylea <Button>  
       Det går bra att ändra styling sen om man vill, det är bara tillfälligt i nu läge //Sebbe */}
+
+      <View style={styles.buttonList}>
 
       <Pressable onPress={() => navigation.navigate("Program1")} style={styles.button}>
         <Text>Program 1</Text>
@@ -22,28 +24,41 @@ const HomePage = () => {
       <Pressable onPress={() => navigation.navigate("Program2")} style={styles.button}>
         <Text>Program 2</Text>
       </Pressable>
+
+      <Pressable onPress={() => navigation.navigate("Program3")} style={styles.button}>
+        <Text>Program 3</Text>
+      </Pressable>
+
+      <Pressable onPress={() => navigation.navigate("Program4")} style={styles.button}>
+        <Text>Program 4</Text>
+      </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
+
   header: {
+    textAlign: 'center',
     fontSize: 34,
     paddingTop: 40,
   },
+  buttonList: {
+    flex: 1,
+    justifyContent: 'flex-start' 
+  },
   button: {
+    marginLeft: 40,
     marginTop: 20,
     borderRadius: 8,
     height: 50,
-    width: '70%',
+    width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
     backgroundColor: '#1386F9'
+    
   }
 
 });

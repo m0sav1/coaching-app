@@ -1,16 +1,18 @@
 import {StyleSheet } from "react-native";
-// import { doc, setDoc } from "firebase/firestore";
 // import { Firestore_Db } from "./firebaseConfig";
-import StartPage from "./src/screens/StartPage";
 // import Registration from "./src/screens/Registration";
 // import LoginPage from "./src/screens/LoginPage";
-import HomePage from "./src/screens/HomePage";
 // import LogoutPage from "./src/screens/LogoutPage";
 // import PasswordResetPage from "./src/screens/PasswordResetPage";
+import StartPage from "./src/screens/StartPage";
+import HomePage from "./src/screens/HomePage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Program1 from "./src/components/Program1/Program1";
 import Program2 from "./src/components/Program2/Program2";
+import Program3 from "./src/components/Program3/Program3";
+import Program4 from "./src/components/Program4/Program4";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +28,9 @@ export default function App() {
         <Stack.Screen name="Logout" component={LogoutPage} options={{headerShown: false}}/> */}
           <Stack.Screen name="Program1" component={Program1} options={{headerShown: false}}/> 
           <Stack.Screen name="Program2" component={Program2} options={{headerShown: false}}/> 
+          <Stack.Screen name="Program3" component={Program3} options={{headerShown: false}}/> 
+          <Stack.Screen name="Program4" component={Program4} options={{headerShown: false}}/> 
+
 
       </Stack.Navigator>
     </NavigationContainer>
