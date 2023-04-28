@@ -2,26 +2,26 @@ import { View, Text, StyleSheet, ScrollView,  Dimensions,TextInput, TouchableOpa
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 // import LogoutPage from "./LogoutPage";
-import Program2 from "../components/Program2/Program2";
+
 
 const navigation = useNavigation();
 
 
-const handleProgram1 = () => {
-  navigation.navigate("../components/Program1/Program1");
-}
+// const handleProgram1 = () => {
+//   navigation.navigate("../components/Program1/Program1");
+// }
 
-const handleProgram2 = () => {
-  navigation.navigate("../components/Program2/Program2");
-}
+// const handleProgram2 = () => {
+//   navigation.navigate("../components/Program2/Program2");
+// }
 
 const HomePage = () => {
   return (
     <View style={styles.container}>
         {/* <LogoutPage/> */}
-      <Text style={header}>Home Page</Text>
-      <Button title="Program 1" onPress={handleProgram1} style={button}/>
-      <Button title="Program 2" onPress={handleProgram2} style={button}/>
+      {/* <Text style={styles.header}>Home Page</Text>
+      <Button title="Program 1" onPress={handleProgram1} style={styles.button}/>
+      <Button title="Program 2" onPress={handleProgram2} style={styles.button}/> */}
     </View>
   );
 };
