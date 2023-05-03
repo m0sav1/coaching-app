@@ -8,9 +8,9 @@ import StartPage from "./src/screens/StartPage";
 import HomePage from "./src/screens/HomePage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Program1 from "./src/components/Personlig-utveckling/Program1";
-import Program2 from "./src/components/Kommunikation/Program2";
-import Program3 from "./src/components/Motiverande-ledarskap/Program3";
+import Program1 from "./src/components/Program1/Program1";
+import Program2 from "./src/components/Program2/Program2";
+import Program3 from "./src/components/Program3/Program3";
 import Program4 from "./src/components/Program4/Program4";
 
 
