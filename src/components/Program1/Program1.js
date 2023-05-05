@@ -1,32 +1,36 @@
 import React  from "react";
 import firebaseConfig from "../../../firebaseConfig";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { useEffect, useState } from "react";
-import {getStorage, ref, listAll} from "firebase/storage"
-// import { Video } from "expo-av";
+import {getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
+import { Video } from "expo-av";
 // import { WebView } from 'react-native-webview';
+import { ActivityIndicator } from "react-native";
 
 
 const Program1 = () => {
 
-  // const [videos, setVideos] = useState([]);
+  const [videoUrls, setVideoUrls] = useState([]);
+  const { width, height } = Dimensions.get("window");
+  const [loading, setLoading] = useState(true);
 
-  
+
    useEffect(() => {
     const storage = getStorage();
     const listRef = ref(storage, "PersonligUtveckling/");
 
     listAll(listRef)
       .then((res) => {
-        
-        res.prefixes.forEach((folderRef) => {
-          // All the prefixes under listRef.
-         // console.log(folderRef);
-        });
+        const urls = [];
         res.items.forEach((itemRef) => {
-          // All the items under listRef.
-          console.log('item: ' + itemRef);
-          console.log('name of file: ' + itemRef.name);
+    
+          getDownloadURL(itemRef)
+          .then((url) => {
+            console.log('URL of video file:', url);
+            urls.push(url);
+            setVideoUrls(urls);
+            setLoading(false);
+          })
         });
       
       })
@@ -35,22 +39,56 @@ const Program1 = () => {
         console.log(error);
       });
   }, []);
-  
 
+  const handleVideoError = (error) => {
+    console.log("Video error:", error);
+  };
+
+  const handleVideoLoad = () => {
+    console.log("Video loaded");
+  };
+  
+  console.log(videoUrls.length);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" />
+        { loading && videoUrls.length === 0 ? <Text>No videos found</Text> :  <ActivityIndicator size="large" />}
+      </View>
+    );
+  }
 
   return (
-      <View>
-
-      </View>
+    <View style={styles.container}>
+      <Text>Hello</Text>
+    
+      {!loading &&
+        videoUrls.map((url, index) => (
+          <Video
+            key={index}
+            source={{ uri: url }}
+            style={styles.video}
+            useNativeControls={true}
+            resizeMode="contain"
+            onError={handleVideoError}
+            onLoad={handleVideoLoad}
+          />
+        ))}
+    </View>
   );
 };
 
 
 const styles = StyleSheet.create({
   container: {
-    fontSize: 40,
     paddingTop: 40,
-    textAlign: 'center',
+    alignItems: 'center',
+  },
+  video: {
+    width: 320,
+    height: 240,
+    marginBottom: 20,
   },
 });
 
