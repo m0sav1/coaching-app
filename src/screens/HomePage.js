@@ -17,7 +17,7 @@ const HomePage = () => {
 
       <View style={styles.buttonList}>
 
-      <Pressable onPress={() => navigation.navigate("Program1")} style={styles.button}>
+      <Pressable onPress={() => navigation.navigate("Program1Page")} style={styles.button}>
         <Text>Program 1</Text>
       </Pressable>
       

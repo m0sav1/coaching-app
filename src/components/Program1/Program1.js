@@ -1,15 +1,15 @@
-import React from "react";
+import React  from "react";
+import firebaseConfig from "../../../firebaseConfig";
 import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import {getStorage, ref, listAll} from "firebase/storage"
-import { Video } from "expo-av";
-import firebaseConfig from "../../../firebaseConfig";
-
+// import { Video } from "expo-av";
+// import { WebView } from 'react-native-webview';
 
 
 const Program1 = () => {
-  const [videos, setVideos] = useState([]);
 
+  // const [videos, setVideos] = useState([]);
 
   
    useEffect(() => {
@@ -19,21 +19,16 @@ const Program1 = () => {
     listAll(listRef)
       .then((res) => {
         
-        const promises = res.items.map((itemRef) =>
-          itemRef.getDownloadURL().then((url) => ({
-            name: itemRef.name,
-            // url,
-          })),
-          console.log(res.items[0].name),
-          // console.log(res.items[0].url)
-
-        );
-        Promise.all(promises).then((videos) => {
-          setVideos(videos);
+        res.prefixes.forEach((folderRef) => {
+          // All the prefixes under listRef.
+         // console.log(folderRef);
+        });
+        res.items.forEach((itemRef) => {
+          // All the items under listRef.
+          console.log('item: ' + itemRef);
+          console.log('name of file: ' + itemRef.name);
+        });
       
-          
-        })
-       
       })
       .catch((error) => {
         
@@ -44,15 +39,9 @@ const Program1 = () => {
 
 
   return (
-    <View>
-     <Text style={styles.container}>Program 1</Text>
-      {videos.map((video) => (
-        <View key={video.name}>
-          <Text>{video.name}</Text>
-          {/* <Video source={{ uri: video.url }} /> */}
-        </View>
-      ))}
-    </View>
+      <View>
+
+      </View>
   );
 };
 
