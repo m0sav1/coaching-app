@@ -17,7 +17,7 @@ const Program1 = () => {
 
    useEffect(() => {
     const storage = getStorage();
-    const listRef = ref(storage, "PersonligUtveckling/");
+    const listRef = ref(storage, "PersonligUtveckling/videos/");
 
     listAll(listRef)
       .then((res) => {
