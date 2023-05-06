@@ -10,7 +10,7 @@ import { ActivityIndicator } from "react-native";
 
 
 
-const Program1 = () => {
+const PersonligUtveckling = () => {
   const [videoUrls, setVideoUrls] = useState([]);
   // const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(true);
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Program1;
+export default PersonligUtveckling;
