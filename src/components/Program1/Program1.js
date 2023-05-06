@@ -6,39 +6,44 @@ import {getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
 import { Video } from "expo-av";
 // import { WebView } from 'react-native-webview';
 import { ActivityIndicator } from "react-native";
+// import VideoPlayer from 'react-native-video';
+
 
 
 const Program1 = () => {
-
   const [videoUrls, setVideoUrls] = useState([]);
-  const { width, height } = Dimensions.get("window");
+  // const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(true);
+  
 
 
    useEffect(() => {
+      FetchVideos();
+  }, []);
+
+  const FetchVideos = () => {
     const storage = getStorage();
     const listRef = ref(storage, "PersonligUtveckling/videos/");
-
+  
     listAll(listRef)
-      .then((res) => {
-        const urls = [];
-        res.items.forEach((itemRef) => {
-    
-          getDownloadURL(itemRef)
-          .then((url) => {
-            console.log('URL of video file:', url);
-            urls.push(url);
-            setVideoUrls(urls);
-            setLoading(false);
-          })
-        });
-      
-      })
+      .then((res) =>
+        Promise.all(
+          res.items.map((itemRef) =>
+            getDownloadURL(itemRef).then((url) => {
+              console.log("URL of video file:", url);
+              return url;
+            })
+          )
+        )
+      )
+      .then((urls) => setVideoUrls(urls))
       .catch((error) => {
-        
         console.log(error);
-      });
-  }, []);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  
 
   const handleVideoError = (error) => {
     console.log("Video error:", error);
@@ -48,6 +53,7 @@ const Program1 = () => {
     console.log("Video loaded");
   };
   
+
   console.log(videoUrls.length);
 
   if (loading) {
@@ -63,10 +69,12 @@ const Program1 = () => {
     <View style={styles.container}>
       <Text>Hello</Text>
     
-      {!loading &&
+      {!loading ?
         videoUrls.map((url, index) => (
           <Video
             key={index}
+            isMuted={false}
+            volume={2.0}
             source={{ uri: url }}
             style={styles.video}
             useNativeControls={true}
@@ -74,7 +82,7 @@ const Program1 = () => {
             onError={handleVideoError}
             onLoad={handleVideoLoad}
           />
-        ))}
+        )) : <ActivityIndicator size="large" />}
     </View>
   );
 };
