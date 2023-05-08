@@ -24,8 +24,13 @@ const HomePage = () => {
 
       <View style={styles.buttonList}>
 
+<<<<<<< HEAD
       <Pressable onPress={() => navigation.navigate("Program1")} style={styles.button}>
         <Text>{translations.program1}</Text>
+=======
+      <Pressable onPress={() => navigation.navigate("Program1Page")} style={styles.button}>
+        <Text>Program 1</Text>
+>>>>>>> main
       </Pressable>
       
       <Pressable onPress={() => navigation.navigate("Program2")} style={styles.button}>
@@ -48,18 +53,20 @@ const styles = StyleSheet.create({
 
   header: {
     textAlign: 'center',
-    fontSize: 34,
-    paddingTop: 40,
+    fontSize: 50,
+    paddingTop: 50,
+    backgroundColor:'orange'
   },
   buttonList: {
     flex: 1,
     justifyContent: 'flex-start' 
   },
   button: {
-    marginLeft: 40,
-    marginTop: 20,
-    borderRadius: 8,
-    height: 50,
+    marginLeft: 90,
+    marginTop: 40,
+    marginBottom: 20,
+    borderRadius: 10,
+    height: 60,
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
