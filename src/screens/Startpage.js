@@ -15,7 +15,7 @@ const StartPage = () => {
 
   const handlePlaybackStatusUpdate = (status) => {
     if (status.didJustFinish) {
-      navigation.navigate("HomePage", { language: language });
+      videoRef.current.replayAsync(); // loopa videon
     }
   };
 
@@ -34,8 +34,8 @@ const StartPage = () => {
   const handleChoosenLanguagePress = (language) => {
     setLanguageSelected(false);
     dispatch(setLanguage(language));
-    navigation.navigate("HomePage", { language: language});
     videoRef.current.pauseAsync();
+    navigation.navigate("HomePage", { language: language});
 
   };
 
@@ -89,6 +89,7 @@ const StartPage = () => {
         disableFullscreen={true}
         useNativeControls={false}
         isMuted={true}
+        isLooping={true}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
        {renderTextOverButton()}
