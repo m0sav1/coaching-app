@@ -7,6 +7,7 @@ import { Video } from "expo-av";
 // import { WebView } from 'react-native-webview';
 import { ActivityIndicator } from "react-native";
 // import VideoPlayer from 'react-native-video';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -18,29 +19,47 @@ const PersonligUtveckling = () => {
 
 
    useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
       FetchVideos();
-  }, []);
+    });
+      return unsubscribe;
+  }, [navigation]);
 
-  const FetchVideos = () => {
-    const storage = getStorage();
-    const listRef = ref(storage, "PersonligUtveckling/videos/");
+  const FetchVideos = async () => {
+    try {
+      const cachedUrls = await AsyncStorage.getItem('videoUrls');
   
-    listAll(listRef)
-      .then((res) =>
-        Promise.all(
-          res.items.map((itemRef) =>
-            getDownloadURL(itemRef).then((url) => {
-              console.log("URL of video file:", url);
-              return url;
-            })
+      if (cachedUrls !== null) {
+        console.log('Retrieved cached video URLs');
+        setVideoUrls(JSON.parse(cachedUrls));
+        setLoading(false);
+      } else {
+        const storage = getStorage();
+        const listRef = ref(storage, "PersonligUtveckling/videos/");
+  
+        listAll(listRef)
+          .then((res) =>
+            Promise.all(
+              res.items.map((itemRef) =>
+                getDownloadURL(itemRef).then((url) => {
+                  console.log("URL of video file:", url);
+                  return url;
+                })
+              )
+            )
           )
-        )
-      )
-      .then((urls) => setVideoUrls(urls))
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
+          .then((urls) => {
+            setVideoUrls(urls);
+            AsyncStorage.setItem('videoUrls', JSON.stringify(urls));
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => setLoading(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   
