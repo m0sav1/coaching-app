@@ -4,6 +4,8 @@ import {StyleSheet } from "react-native";
 // import LoginPage from "./src/screens/LoginPage";
 // import LogoutPage from "./src/screens/LogoutPage";
 // import PasswordResetPage from "./src/screens/PasswordResetPage";
+import { Provider } from 'react-redux';
+import { store } from './src/languages/store';
 import StartPage from "./src/screens/StartPage";
 import HomePage from "./src/screens/HomePage";
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,6 +22,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="StartPage" component={StartPage} options={{ headerShown: false }}  />
@@ -36,6 +39,7 @@ export default function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
 
