@@ -53,7 +53,7 @@ const Program1Page = () => {
             borderRadius: 20,
             marginHorizontal: 30,
           }}
-          onPress={() => navigation.navigate("HomePage")}
+          onPress={() => navigation.navigate("PersonligUtveckling")}
         >
           <Text style={{ fontSize: 16, color: "white", textAlign: "center" }}>Button to take you to the COURSE</Text>
         </TouchableOpacity>
