@@ -8,6 +8,7 @@ import { Video } from "expo-av";
 import { ActivityIndicator } from "react-native";
 // import VideoPlayer from 'react-native-video';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import{useNavigation} from'@react-navigation/native';
 
 
 
@@ -15,7 +16,7 @@ const PersonligUtveckling = () => {
   const [videoUrls, setVideoUrls] = useState([]);
   // const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(true);
-  
+  const navigation = useNavigation();
 
 
    useEffect(() => {
