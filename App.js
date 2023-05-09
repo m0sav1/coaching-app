@@ -25,8 +25,8 @@ export default function App() {
     <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="StartPage" component={StartPage} options={{ headerShown: false }}  />
-        <Stack.Screen  name="HomePage" component={HomePage}options={{ headerShown: false }}  />
+        <Stack.Screen name="StartPage" component={StartPage} options={{ headerShown: false, gestureEnabled: false }}/>
+        <Stack.Screen  name="HomePage" component={HomePage}options={{ headerShown: false, gestureEnabled: false  }}  />
         {/* <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
         <Stack.Screen name="PasswordResetPage" component={PasswordResetPage} options={{headerShown: false}}/>
