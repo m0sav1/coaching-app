@@ -1,12 +1,9 @@
 import React  from "react";
-import firebaseConfig from "../../../firebaseConfig";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import {getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
 import { Video } from "expo-av";
-// import { WebView } from 'react-native-webview';
 import { ActivityIndicator } from "react-native";
-// import VideoPlayer from 'react-native-video';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import{useNavigation} from'@react-navigation/native';
 import { useSelector } from "react-redux";
@@ -14,11 +11,14 @@ import Icon from 'react-native-vector-icons/Feather';
 import Sv from '../../languages/Sv'; 
 import Eng from '../../languages/Eng'; 
 import Ar from '../../languages/Ar'; 
+// import icon from '../../../assets/favicon.png'
+
 
 
 
 const PersonligUtveckling = () => {
   const [videoUrls, setVideoUrls] = useState([]);
+  const [AudioUrls, setAudioUrls] = useState([]);
   // const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -36,6 +36,7 @@ const PersonligUtveckling = () => {
    useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       FetchVideos();
+      FetchAudio();
     });
       return unsubscribe;
   }, [navigation]);
@@ -77,8 +78,47 @@ const PersonligUtveckling = () => {
     }
   };
 
-  
 
+  const FetchAudio = async () => {
+    try {
+      const cachedUrls = await AsyncStorage.getItem('audioUrls');
+  
+      if (cachedUrls !== null) {
+        console.log('Retrieved cached audio URLs');
+        setAudioUrls(JSON.parse(cachedUrls));
+        setLoading(false);
+      } else {
+        const storage = getStorage();
+        const listRef = ref(storage, "PersonligUtveckling/audio/");
+  
+        listAll(listRef)
+          .then((res) =>
+            Promise.all(
+              res.items.map((itemRef) =>
+                getDownloadURL(itemRef).then((url) => {
+                  console.log("URL of audio file:", url);
+                  return url;
+                })
+              )
+            )
+          )
+          .then((urls) => {
+            setAudioUrls(urls);
+            AsyncStorage.setItem('audioUrls', JSON.stringify(urls));
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => setLoading(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  
+// LOGS
   const handleVideoError = (error) => {
     console.log("Video error:", error);
   };
@@ -86,9 +126,17 @@ const PersonligUtveckling = () => {
   const handleVideoLoad = () => {
     console.log("Video loaded");
   };
-  
 
-  console.log(videoUrls.length);
+  const handleAudioError = (error) => {
+    console.log("Audio error:", error);
+  };
+
+  const handleAudioLoad = () => {
+    console.log("Audio loaded");
+  };
+  
+  console.log('audios: ' + AudioUrls.length);
+  console.log('video: ' + videoUrls.length);
 
   if (loading) {
     return (
@@ -99,28 +147,52 @@ const PersonligUtveckling = () => {
     );
   }
 
+ 
   return (
     <View style={styles.container}>
        <TouchableOpacity onPress={goBack} style={styles.backButton}>
         <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
+        <Text>Hello</Text>
        
-      <Text>Hello</Text>
-    
+
       {!loading ?
         videoUrls.map((url, index) => (
           <Video
             key={index}
             isMuted={false}
-            volume={2.0}
+            volume={1.0}
             source={{ uri: url }}
             style={styles.video}
             useNativeControls={true}
-            resizeMode="contain"
+            resizeMode="container"
             onError={handleVideoError}
             onLoad={handleVideoLoad}
           />
         )) : <ActivityIndicator size="large" />}
+       <Text>Audio</Text>
+
+   
+
+      {!loading ?
+        AudioUrls.map((url, index) => (
+          
+          <Video
+          
+            key={index}
+            isMuted={false}
+            volume={1.0}
+            source={{ uri: url }}
+            style={styles.audio}
+            useNativeControls={true}
+            resizeMode="container"
+            onError={handleAudioError}
+            onLoad={handleAudioLoad}
+            showPoster={true}
+            posterSource={require('../../../assets/favicon.png')}
+          />
+        )) : <ActivityIndicator size="large"/>}
+
     </View>
   );
 };
@@ -134,6 +206,11 @@ const styles = StyleSheet.create({
   video: {
     width: 320,
     height: 240,
+    marginBottom: 20,
+  },
+  audio: {
+    width: 320,
+    height: 80,
     marginBottom: 20,
   },
   backButton: {
