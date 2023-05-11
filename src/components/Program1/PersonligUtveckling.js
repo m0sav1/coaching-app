@@ -104,7 +104,7 @@ const PersonligUtveckling = () => {
        <TouchableOpacity onPress={goBack} style={styles.backButton}>
         <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
-        <Text>Hello</Text>
+        <Text>Hello its me </Text>
        
 
       {!loading ?
