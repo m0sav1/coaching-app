@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import {getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
 import { Video } from "expo-av";
 import { ActivityIndicator } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import{useNavigation} from'@react-navigation/native';
 import { useSelector } from "react-redux";
 import Icon from 'react-native-vector-icons/Feather';
 import Sv from '../../languages/Sv'; 
 import Eng from '../../languages/Eng'; 
 import Ar from '../../languages/Ar'; 
-// import icon from '../../../assets/favicon.png'
+import * as FileSystem from "expo-file-system";
+import firebaseConfig from "../../../firebaseConfig";
 
 
 
@@ -22,7 +22,7 @@ const PersonligUtveckling = () => {
   // const { width, height } = Dimensions.get("window");
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-
+ 
 
   const language = useSelector((state) => state.language); //Hämta valt språk från redux store
   const translations = language === 'Sv' ? Sv : language === 'Ar' ? Ar : Eng; // Hämtar översättningen för de olika språken
@@ -43,74 +43,59 @@ const PersonligUtveckling = () => {
 
   const FetchVideos = async () => {
     try {
-      const cachedUrls = await AsyncStorage.getItem('videoUrls');
-  
-      if (cachedUrls !== null) {
-        console.log('Retrieved cached video URLs');
-        setVideoUrls(JSON.parse(cachedUrls));
-        setLoading(false);
-      } else {
-        const storage = getStorage();
-        const listRef = ref(storage, "PersonligUtveckling/videos/");
-  
-        listAll(listRef)
-          .then((res) =>
-            Promise.all(
-              res.items.map((itemRef) =>
-                getDownloadURL(itemRef).then((url) => {
-                  console.log("URL of video file:", url);
-                  return url;
-                })
-              )
-            )
-          )
-          .then((urls) => {
-            setVideoUrls(urls);
-            AsyncStorage.setItem('videoUrls', JSON.stringify(urls));
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => setLoading(false));
+      const videoDirectory = `${FileSystem.cacheDirectory}videos/`;
+      const videoInfo = await FileSystem.getInfoAsync(videoDirectory);
+      if (!videoInfo.exists) {
+        await FileSystem.makeDirectoryAsync(videoDirectory);
       }
+      const storage = getStorage();
+      const listRef = ref(storage, "PersonligUtveckling/videos/");
+      const res = await listAll(listRef);
+      const urls = await Promise.all(
+        res.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          // console.log("URL of video file:", url);
+          const fileUri = `${videoDirectory}${itemRef.name}`;
+          const fileInfo = await FileSystem.getInfoAsync(fileUri);
+          if (!fileInfo.exists) {
+            await FileSystem.downloadAsync(url, fileUri);
+          }
+          return fileUri;
+        })
+      );
+      setVideoUrls(urls);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-
   const FetchAudio = async () => {
     try {
-      const cachedUrls = await AsyncStorage.getItem('audioUrls');
-  
-      if (cachedUrls !== null) {
-        console.log('Retrieved cached audio URLs');
-        setAudioUrls(JSON.parse(cachedUrls));
-        setLoading(false);
-      } else {
-        const storage = getStorage();
-        const listRef = ref(storage, "PersonligUtveckling/audio/");
-  
-        listAll(listRef)
-          .then((res) =>
-            Promise.all(
-              res.items.map((itemRef) =>
-                getDownloadURL(itemRef).then((url) => {
-                  console.log("URL of audio file:", url);
-                  return url;
-                })
-              )
-            )
-          )
-          .then((urls) => {
-            setAudioUrls(urls);
-            AsyncStorage.setItem('audioUrls', JSON.stringify(urls));
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => setLoading(false));
+      const audioDirectory = `${FileSystem.cacheDirectory}audios/`;
+      const audioInfo = await FileSystem.getInfoAsync(audioDirectory);
+      console.log(audioInfo);
+      if (!audioInfo.exists) {
+        await FileSystem.makeDirectoryAsync(audioDirectory);
+       
       }
+      const storage = getStorage();
+      const listRef = ref(storage, "PersonligUtveckling/audio/");
+      const res = await listAll(listRef);
+      const urls = await Promise.all(
+        res.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          // console.log("URL of audio file:", url);
+          const fileUri = `${audioDirectory}${itemRef.name}`;
+          const fileInfo = await FileSystem.getInfoAsync(fileUri);
+          if (!fileInfo.exists) {
+            await FileSystem.downloadAsync(url, fileUri);
+          }
+          return fileUri;
+        })
+      );
+      setAudioUrls(urls);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
