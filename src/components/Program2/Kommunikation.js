@@ -19,11 +19,9 @@ import firebaseConfig from "../../../firebaseConfig";
 const Kommunikation = () => {
   const [videoUrls, setVideoUrls] = useState([]);
   const [AudioUrls, setAudioUrls] = useState([]);
-  // const { width, height } = Dimensions.get("window");
+  const [PdfUrls, setPdfUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
- 
-
   const language = useSelector((state) => state.language); //Hämta valt språk från redux store
   const translations = language === 'Sv' ? Sv : language === 'Ar' ? Ar : Eng; // Hämtar översättningen för de olika språken
 
@@ -33,73 +31,44 @@ const Kommunikation = () => {
     };
 
 
-   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      FetchVideos();
-      FetchAudio();
-    });
+    useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        fetchData('videos', 'Kommunikation/videos/', setVideoUrls);
+        fetchData('audios', 'Kommunikation/audio/', setAudioUrls);
+        fetchData('pdfs', 'Kommunikation/pdf/', setPdfUrls);
+      });
       return unsubscribe;
-  }, [navigation]);
-
-  const FetchVideos = async () => {
-    try {
-      const videoDirectory = `${FileSystem.cacheDirectory}videos/`;
-      const videoInfo = await FileSystem.getInfoAsync(videoDirectory);
-      if (!videoInfo.exists) {
-        await FileSystem.makeDirectoryAsync(videoDirectory);
+    }, [navigation]);
+    
+    const fetchData = async (directoryName, storagePath, setUrls) => {
+      try {
+        const fileDirectory = `${FileSystem.cacheDirectory}${directoryName}/`;
+        const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
+        console.log(fileInfo);
+        if (!fileInfo.exists) {
+          await FileSystem.makeDirectoryAsync(fileDirectory);
+        }
+        const storage = getStorage();
+        const listRef = ref(storage, storagePath);
+        const res = await listAll(listRef);
+        const urls = await Promise.all(
+          res.items.map(async (itemRef) => {
+            const url = await getDownloadURL(itemRef);
+            const fileUri = `${fileDirectory}${itemRef.name}`;
+            const fileInfo = await FileSystem.getInfoAsync(fileUri);
+            if (!fileInfo.exists) {
+              await FileSystem.downloadAsync(url, fileUri);
+            }
+            return fileUri;
+          })
+        );
+        setUrls(urls);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
       }
-      const storage = getStorage();
-      const listRef = ref(storage, "Kommunikation/videos/");
-      const res = await listAll(listRef);
-      const urls = await Promise.all(
-        res.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          // console.log("URL of video file:", url);
-          const fileUri = `${videoDirectory}${itemRef.name}`;
-          const fileInfo = await FileSystem.getInfoAsync(fileUri);
-          if (!fileInfo.exists) {
-            await FileSystem.downloadAsync(url, fileUri);
-          }
-          return fileUri;
-        })
-      );
-      setVideoUrls(urls);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const FetchAudio = async () => {
-    try {
-      const audioDirectory = `${FileSystem.cacheDirectory}audios/`;
-      const audioInfo = await FileSystem.getInfoAsync(audioDirectory);
-      console.log(audioInfo);
-      if (!audioInfo.exists) {
-        await FileSystem.makeDirectoryAsync(audioDirectory);
-       
-      }
-      const storage = getStorage();
-      const listRef = ref(storage, "Kommunikation/audio/");
-      const res = await listAll(listRef);
-      const urls = await Promise.all(
-        res.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          // console.log("URL of audio file:", url);
-          const fileUri = `${audioDirectory}${itemRef.name}`;
-          const fileInfo = await FileSystem.getInfoAsync(fileUri);
-          if (!fileInfo.exists) {
-            await FileSystem.downloadAsync(url, fileUri);
-          }
-          return fileUri;
-        })
-      );
-      setAudioUrls(urls);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
+    
 
 
   
@@ -122,6 +91,8 @@ const Kommunikation = () => {
   
   console.log('audios: ' + AudioUrls.length);
   console.log('video: ' + videoUrls.length);
+  console.log('pdf: ' + PdfUrls.length);
+
 
   if (loading) {
     return (
@@ -177,6 +148,17 @@ const Kommunikation = () => {
           />
         )) : <ActivityIndicator size="large"/>}
 
+        {!PdfUrls.length ? <Text>{translations.noPdf}</Text> : <Text></Text>}
+        {!loading ? (
+          PdfUrls.map((url, index) => (
+          <TouchableOpacity key={index}  style={styles.button}>
+             <Text style={styles.text}> {`PDF ${index + 1}`} </Text>
+          </TouchableOpacity>
+        ))
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
+
     </View>
     </ScrollView>
   );
@@ -205,6 +187,18 @@ const styles = StyleSheet.create({
     // top: 75,
     // bottom: 0,
     justifyContent: 'center',
+  },
+  button: {
+    width: '60%',
+    height: 50,
+    marginBottom: 20,
+    backgroundColor:'blue',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: 'white'
   }
 });
 
