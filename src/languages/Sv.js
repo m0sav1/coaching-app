@@ -1,9 +1,13 @@
 const Sv = {
     home: 'Hem',
-    program1: 'Program 1',
-    program2: 'Program 2',
-    program3: 'Program 3',
+    program1: 'Personlig Utveckling',
+    program2: 'Kommunikation',
+    program3: 'Motiverande Ledarskap',
     program4: 'Program 4',
+    noVideo: 'Ingen video hittades',
+    noAudio: 'Ingen audio hittades',
+    noPdf: 'Ingen pdf hittades'
+    
   };
   
   export default Sv;

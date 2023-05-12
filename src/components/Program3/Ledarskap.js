@@ -43,7 +43,7 @@ const PersonligUtveckling = () => {
         await FileSystem.makeDirectoryAsync(videoDirectory);
       }
       const storage = getStorage();
-      const listRef = ref(storage, "PersonligUtveckling/videos/");
+      const listRef = ref(storage, "MotiverandeLedarskap/videos/");
       const res = await listAll(listRef);
       const urls = await Promise.all(
         res.items.map(async (itemRef) => {
@@ -73,7 +73,7 @@ const PersonligUtveckling = () => {
         await FileSystem.makeDirectoryAsync(audioDirectory);
       }
       const storage = getStorage();
-      const listRef = ref(storage, "PersonligUtveckling/audio/");
+      const listRef = ref(storage, "MotiverandeLedarskap/audio/");
       const res = await listAll(listRef);
       const urls = await Promise.all(
         res.items.map(async (itemRef) => {
@@ -128,13 +128,14 @@ const PersonligUtveckling = () => {
   }
 
   return (
-      <ScrollView  showsVerticalScrollIndicator={false}
+      <ScrollView  
+      showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}>
     <View style={styles.container}>
         <TouchableOpacity onPress={goBack} style={styles.backButton}>
           <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
-        <Text>Personlig Utveckling</Text>
+        <Text>Motiverande Ledarskap</Text>
         {!videoUrls.length ? <Text>{translations.noVideo}</Text> : <Text></Text>}
         {!loading ? (
           videoUrls.map((url, index) => (
@@ -152,8 +153,8 @@ const PersonligUtveckling = () => {
           ))
         ) : (
           <ActivityIndicator size="large" />
-        )}
-       
+        )} 
+      
         {!AudioUrls.length ? <Text>{translations.noAudio}</Text> : <Text></Text>}
         {!loading ? (
           AudioUrls.map((url, index) => (

@@ -25,14 +25,14 @@ const HomePage = () => {
       <View style={styles.buttonList}>
 
       <Pressable onPress={() => navigation.navigate("Program1Page")} style={styles.button}>
-        <Text>Program 1</Text>
+        <Text>{translations.program1}</Text>
       </Pressable>
       
       <Pressable onPress={() => navigation.navigate("KommunikationPage")} style={styles.button}>
         <Text>{translations.program2}</Text>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Program3")} style={styles.button}>
+      <Pressable onPress={() => navigation.navigate("Ledarskap")} style={styles.button}>
         <Text>{translations.program3}</Text>
       </Pressable>
 

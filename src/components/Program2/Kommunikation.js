@@ -140,9 +140,9 @@ const Kommunikation = () => {
        <TouchableOpacity onPress={goBack} style={styles.backButton}>
         <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
-        <Text>Hello its me </Text>
+        <Text>Kommunikation</Text>
        
-
+      {!videoUrls.length ? <Text>{translations.noVideo}</Text> : <Text></Text>}
       {!loading ?
         videoUrls.map((url, index) => (
           <Video
@@ -157,15 +157,12 @@ const Kommunikation = () => {
             onLoad={handleVideoLoad}
           />
         )) : <ActivityIndicator size="large" />}
-       <Text>Audio</Text>
-
+     
    
-
+     {!AudioUrls.length ? <Text>{translations.noAudio}</Text> : <Text></Text>}
       {!loading ?
         AudioUrls.map((url, index) => (
-          
           <Video
-          
             key={index}
             isMuted={false}
             volume={1.0}

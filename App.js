@@ -1,5 +1,3 @@
-import {StyleSheet } from "react-native";
-import { Firestore_Db } from "./firebaseConfig";
 import Registration from "./src/screens/Registration";
 import LoginPage from "./src/screens/LoginPage";
 import LogoutPage from "./src/screens/LogoutPage";
@@ -11,17 +9,18 @@ import HomePage from "./src/screens/HomePage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Program1Page from "./src/screens/Program1Page";
-import PersonligUtveckling from "./src/components/Program1/PersonligUtveckling";
 import KommunikationPage from "./src/screens/KommunikationPage";
+import LedarskapPage from "./src/screens/LedarskapPage";
+import PersonligUtveckling from "./src/components/Program1/PersonligUtveckling";
 import Kommunikation from "./src/components/Program2/Kommunikation";
-import Program3 from "./src/components/Program3/Program3";
+import Ledarskap from "./src/components/Program3/Ledarskap";
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <Provider store={store}>
+  <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="StartPage" component={StartPage} options={{ headerShown: false, gestureEnabled: false }}/>
@@ -30,24 +29,15 @@ export default function App() {
         <Stack.Screen name="Registration" component={Registration} options={{headerShown: false}}/>
         <Stack.Screen name="PasswordResetPage" component={PasswordResetPage} options={{headerShown: false}}/>
         <Stack.Screen name="Logout" component={LogoutPage} options={{headerShown: false}}/>
-          <Stack.Screen name="Program1Page" component={Program1Page} options={{headerShown: false}}/> 
-          <Stack.Screen name="KommunikationPage" component={KommunikationPage} options={{headerShown: false}}/> 
-          <Stack.Screen name="PersonligUtveckling" component={PersonligUtveckling} options={{headerShown: false}}/> 
-          <Stack.Screen name="Kommunikation" component={Kommunikation} options={{headerShown: false}}/> 
-          <Stack.Screen name="Program3" component={Program3} options={{headerShown: false}}/> 
-         
-
+        <Stack.Screen name="Program1Page" component={Program1Page} options={{headerShown: false}}/> 
+        <Stack.Screen name="KommunikationPage" component={KommunikationPage} options={{headerShown: false}}/> 
+        <Stack.Screen name="LedarskapPage" component={LedarskapPage} options={{headerShown: false}}/> 
+        <Stack.Screen name="PersonligUtveckling" component={PersonligUtveckling} options={{headerShown: false}}/> 
+        <Stack.Screen name="Kommunikation" component={Kommunikation} options={{headerShown: false}}/> 
+        <Stack.Screen name="Ledarskap" component={Ledarskap} options={{headerShown: false}}/> 
       </Stack.Navigator>
     </NavigationContainer>
-    </Provider>
+  </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

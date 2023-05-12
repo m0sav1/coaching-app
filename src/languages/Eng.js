@@ -1,9 +1,12 @@
 const Eng = {
     home: 'Home',
-    program1: 'Program 1',
-    program2: 'Program 2',
-    program3: 'Program 3',
+    program1: 'Personal Development',
+    program2: 'Communication',
+    program3: 'Motivational Leadership',
     program4: 'Program 4',
+    noVideo: 'No video found',
+    noAudio: 'No audio found',
+    noPdf: 'No pdf found'
   };
 
   export default Eng;
