@@ -128,7 +128,8 @@ const PersonligUtveckling = () => {
   }
 
   return (
-      <ScrollView>
+      <ScrollView  showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}>
     <View style={styles.container}>
         <TouchableOpacity onPress={goBack} style={styles.backButton}>
           <Icon name="chevron-left" size={30} />
@@ -166,8 +167,7 @@ const PersonligUtveckling = () => {
               resizeMode="container"
               onError={handleAudioError}
               onLoad={handleAudioLoad}
-              showPoster={true}
-              posterSource={require("../../../assets/favicon.png")}
+          
             />
           ))
         ) : (
