@@ -28,7 +28,7 @@ const HomePage = () => {
         <Text>Program 1</Text>
       </Pressable>
       
-      <Pressable onPress={() => navigation.navigate("Program2")} style={styles.button}>
+      <Pressable onPress={() => navigation.navigate("KommunikationPage")} style={styles.button}>
         <Text>{translations.program2}</Text>
       </Pressable>
 
@@ -36,9 +36,7 @@ const HomePage = () => {
         <Text>{translations.program3}</Text>
       </Pressable>
 
-      <Pressable onPress={() => navigation.navigate("Program4")} style={styles.button}>
-        <Text>{translations.program4}</Text>
-      </Pressable>
+      
       </View>
     </View>
   );

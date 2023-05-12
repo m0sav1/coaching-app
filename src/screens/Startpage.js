@@ -35,7 +35,7 @@ const StartPage = () => {
     setLanguageSelected(false);
     dispatch(setLanguage(language));
     videoRef.current.pauseAsync();
-    navigation.navigate("HomePage", { language: language});
+    navigation.navigate("LoginPage", { language: language});
 
   };
 
