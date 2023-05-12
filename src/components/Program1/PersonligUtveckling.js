@@ -128,8 +128,8 @@ const PersonligUtveckling = () => {
   }
 
   return (
-    <View style={styles.container}>
       <ScrollView>
+    <View style={styles.container}>
         <TouchableOpacity onPress={goBack} style={styles.backButton}>
           <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
@@ -173,8 +173,8 @@ const PersonligUtveckling = () => {
         ) : (
           <ActivityIndicator size="large" />
         )}
-      </ScrollView>
     </View>
+      </ScrollView>
   );
 };
 

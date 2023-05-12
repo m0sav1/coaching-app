@@ -1,5 +1,5 @@
 import React  from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import {getStorage, ref, listAll, getDownloadURL } from "firebase/storage"
 import { Video } from "expo-av";
@@ -134,6 +134,7 @@ const Kommunikation = () => {
 
  
   return (
+    <ScrollView>
     <View style={styles.container}>
        <TouchableOpacity onPress={goBack} style={styles.backButton}>
         <Icon name="chevron-left" size={30} />
@@ -179,6 +180,7 @@ const Kommunikation = () => {
         )) : <ActivityIndicator size="large"/>}
 
     </View>
+    </ScrollView>
   );
 };
 
