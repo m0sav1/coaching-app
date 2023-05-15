@@ -8,7 +8,6 @@ import Ar from '../languages/Ar';
 
 // import LogoutPage from "./LogoutPage";
 
-
 const HomePage = () => {
   const navigation = useNavigation();
   const language = useSelector((state) => state.language); //Hämta valt språk från redux store
@@ -46,25 +45,24 @@ const styles = StyleSheet.create({
 
   header: {
     textAlign: 'center',
-    fontSize: 50,
+    fontSize: 40,
     paddingTop: 50,
-    backgroundColor:'orange'
+    //backgroundColor:'#6ab5ff'
   },
   buttonList: {
     flex: 1,
     justifyContent: 'flex-start' 
   },
   button: {
-    marginLeft: 90,
-    marginTop: 40,
-    marginBottom: 20,
+    marginLeft: 21,
+    marginTop: 75,
     borderRadius: 10,
-    height: 60,
-    width: '50%',
+    height: 95,
+    width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
-    backgroundColor: '#1386F9'
+    backgroundColor: '#6ab5ff'
     
   }
 

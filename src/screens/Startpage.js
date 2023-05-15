@@ -1,9 +1,10 @@
-import { View, Dimensions, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Dimensions, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { Video } from "expo-av";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../languages/store';
+
 
 const StartPage = () => {
   const videoUrl = require("../../assets/video.mp4");
@@ -92,6 +93,17 @@ const StartPage = () => {
         isLooping={true}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
+        <Image
+        source={require('../../assets/KenzaMind.Logo.png')}
+        style={[
+          styles.logo,
+          {
+            width: width * 0.7,
+            height: height * 0.35, 
+          },
+        ]}
+      />
+    
        {renderTextOverButton()}
       <TouchableOpacity style={styles.languageButton} onPress={handleLanguageButtonPress}>
       <Text style={{ color: "white", fontSize: 18 }}> Choose language </Text>
@@ -120,11 +132,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginHorizontal: 10,
     backgroundColor: 'white',
+    opacity: 0.50,  
     justifyContent: 'center',
     alignItems: 'center',
   },
   circleLanguageText: {
-    color: '#333',
+    color: '#000000',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -147,7 +160,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     height: 50,
-    backgroundColor: "#8938EB",
+    backgroundColor: "#6ab5ff",
+  },
+  logo: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '7.5%',
+    transform: [{ translateY: -0.5 * (Dimensions.get('window').width * 0.5) }], 
+
   },
 });
 
