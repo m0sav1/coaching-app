@@ -10,3 +10,7 @@ Getting started:
 npm install 
 npm start
 
+# EAS build
+
+Install eas-cli on your computer: npm install -g eas-cli
+Run app with command: npx expo start --dev-client 
