@@ -1,5 +1,5 @@
 import React from "react";
-import {View, ScrollView, Text, StyleSheet, TouchableOpacity, Button,} from "react-native";
+import {View,ScrollView,Text,StyleSheet,TouchableOpacity,Button,} from "react-native";
 import { useEffect, useState } from "react";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import { Video } from "expo-av";
@@ -20,51 +20,49 @@ const PersonligUtveckling = () => {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const language = useSelector((state) => state.language); //Hämta valt språk från redux store
-  const translations = language === 'Sv' ? Sv : language === 'Ar' ? Ar : Eng; // Hämtar översättningen för de olika språken
+  const translations = language === "Sv" ? Sv : language === "Ar" ? Ar : Eng; // Hämtar översättningen för de olika språken
 
+  const goBack = () => {
+    navigation.goBack();
+  };
 
-    const goBack = () => {
-      navigation.goBack();
-    };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchData("videos", "PersonligUtveckling/videos/", setVideoUrls);
+      fetchData("audios", "PersonligUtveckling/audio/", setAudioUrls);
+      fetchData("pdfs", "PersonligUtveckling/pdf/", setPdfUrls);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
-
-    useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-        fetchData('videos', 'PersonligUtveckling/videos/', setVideoUrls);
-        fetchData('audios', 'PersonligUtveckling/audio/', setAudioUrls);
-        fetchData('pdfs', 'PersonligUtveckling/pdf/', setPdfUrls);
-      });
-      return unsubscribe;
-    }, [navigation]);
-    
-    const fetchData = async (directoryName, storagePath, setUrls) => {
-      try {
-        const fileDirectory = `${FileSystem.cacheDirectory}${directoryName}/`;
-        const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
-        console.log(fileInfo);
-        if (!fileInfo.exists) {
-          await FileSystem.makeDirectoryAsync(fileDirectory);
-        }
-        const storage = getStorage();
-        const listRef = ref(storage, storagePath);
-        const res = await listAll(listRef);
-        const urls = await Promise.all(
-          res.items.map(async (itemRef) => {
-            const url = await getDownloadURL(itemRef);
-            const fileUri = `${fileDirectory}${itemRef.name}`;
-            const fileInfo = await FileSystem.getInfoAsync(fileUri);
-            if (!fileInfo.exists) {
-              await FileSystem.downloadAsync(url, fileUri);
-            }
-            return fileUri;
-          })
-        );
-        setUrls(urls);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
+  const fetchData = async (directoryName, storagePath, setUrls) => {
+    try {
+      const fileDirectory = `${FileSystem.cacheDirectory}${directoryName}/`;
+      const fileInfo = await FileSystem.getInfoAsync(fileDirectory);
+      console.log(fileInfo);
+      if (!fileInfo.exists) {
+        await FileSystem.makeDirectoryAsync(fileDirectory);
       }
-    };
+      const storage = getStorage();
+      const listRef = ref(storage, storagePath);
+      const res = await listAll(listRef);
+      const urls = await Promise.all(
+        res.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          const fileUri = `${fileDirectory}${itemRef.name}`;
+          const fileInfo = await FileSystem.getInfoAsync(fileUri);
+          if (!fileInfo.exists) {
+            await FileSystem.downloadAsync(url, fileUri);
+          }
+          return fileUri;
+        })
+      );
+      setUrls(urls);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // LOGS
   const handleVideoError = (error) => {
@@ -86,7 +84,6 @@ const PersonligUtveckling = () => {
   console.log("audios: " + AudioUrls.length);
   console.log("video: " + videoUrls.length);
 
-
   if (loading) {
     return (
       <View style={[styles.container, styles.horizontal]}>
@@ -101,15 +98,20 @@ const PersonligUtveckling = () => {
   }
 
   return (
-  <ScrollView  
+    <ScrollView
       showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}>
-     <View style={styles.container}>
+      showsHorizontalScrollIndicator={false}
+    >
+      <View style={styles.container}>
         <TouchableOpacity onPress={goBack} style={styles.backButton}>
           <Icon name="chevron-left" size={30} />
         </TouchableOpacity>
         <Text>Personlig Utveckling</Text>
-        {!videoUrls.length ? <Text>{translations.noVideo}</Text> : <Text></Text>}
+        {!videoUrls.length ? (
+          <Text>{translations.noVideo}</Text>
+        ) : (
+          <Text></Text>
+        )}
         {!loading ? (
           videoUrls.map((url, index) => (
             <Video
@@ -127,8 +129,12 @@ const PersonligUtveckling = () => {
         ) : (
           <ActivityIndicator size="large" />
         )}
-       
-        {!AudioUrls.length ? <Text>{translations.noAudio}</Text> : <Text></Text>}
+
+        {!AudioUrls.length ? (
+          <Text>{translations.noAudio}</Text>
+        ) : (
+          <Text></Text>
+        )}
         {!loading ? (
           AudioUrls.map((url, index) => (
             <Video
@@ -150,15 +156,15 @@ const PersonligUtveckling = () => {
         {!PdfUrls.length ? <Text>{translations.noPdf}</Text> : <Text></Text>}
         {!loading ? (
           PdfUrls.map((url, index) => (
-          <TouchableOpacity key={index}  style={styles.button}>
-             <Text style={styles.text}> {`PDF ${index + 1}`} </Text>
-          </TouchableOpacity>
-        ))
+            <TouchableOpacity key={index} style={styles.button}>
+              <Text style={styles.text}> {`PDF ${index + 1}`} </Text>
+            </TouchableOpacity>
+          ))
         ) : (
           <ActivityIndicator size="large" />
         )}
-    </View>
-  </ScrollView>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -187,17 +193,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    width: '60%',
+    width: "60%",
     height: 50,
     marginBottom: 20,
-    backgroundColor:'blue',
+    backgroundColor: "blue",
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
-    color: 'white'
-  }
+    color: "white",
+  },
 });
 
 export default PersonligUtveckling;
