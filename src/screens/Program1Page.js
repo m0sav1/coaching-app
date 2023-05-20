@@ -3,19 +3,17 @@ import { Video } from "expo-av";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import Sv from "../languages/Sv";
-import Eng from "../languages/Eng";
-import Ar from "../languages/Ar";
 
 
-const Program1Page = () => {
+const Program1Page = ({ program1Description }) => {
   const videoUrl = require("../../assets/video.mp4");
   const videoRef = React.useRef(null);
   const { width, height } = Dimensions.get("window");
   const navigation = useNavigation();
+  console.log(program1Description);
 
   const language = useSelector((state) => state.language); //Hämta valt språk från redux store
-  const translations = language === 'Sv' ? Sv : language === 'Ar' ? Ar : Eng; // Hämtar översättningen för de olika språken
+ // const translations = language === 'Sv' ? Sv : language === 'Ar' ? Ar : Eng; // Hämtar översättningen för de olika språken
 
   const handlePlaybackStatusUpdate = (status) => {
     if (status.didJustFinish) {
@@ -47,7 +45,7 @@ const Program1Page = () => {
       </View>
 
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ fontSize: 20 }}>{translations.program1Description}</Text>
+        <Text style={{ fontSize: 20, color: "black" }}>{program1Description}</Text>
       </View>
 
       <View style={{ paddingBottom: 20 }}>
@@ -60,7 +58,7 @@ const Program1Page = () => {
           }}
           onPress={() => navigation.navigate("PersonligUtveckling")}
         >
-          <Text style={{ fontSize: 16, color: "white", textAlign: "center" }}>{translations.program1Button}</Text>
+          <Text style={{ fontSize: 16, color: "white", textAlign: "center" }}>Tryck</Text>
         </TouchableOpacity>
       </View>
     </View>
